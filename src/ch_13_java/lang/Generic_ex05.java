@@ -16,6 +16,7 @@ public class Generic_ex05 {
 		
 		MyClass02 mc2 = new MyClass02();
 		mc2.sum(a, b);
+		//
 
 	}
 
