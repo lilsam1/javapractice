@@ -1,0 +1,9 @@
+java.lang.ArithmeticException: / by zero
+	at ch_12_ExceptionHandling.TryCatch_ex09.main(TryCatch_ex09.java:20)
+에외메세지: / by zero
+---------------------------
+예외 발생 시간: Thu Dec 01 10:38:30 GMT+09:00 2022
+java.lang.ArithmeticException: / by zero
+	at ch_12_ExceptionHandling.TryCatch_ex09.main(TryCatch_ex09.java:21)
+예외메세지: / by zero
+---------------------------
