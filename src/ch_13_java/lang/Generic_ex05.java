@@ -1,6 +1,6 @@
 package ch_13_java.lang;
 
-class MyClass02<T, V> {
+class MyClass02 <T, V> {
 	// 제너릭을 사용하는 sum() 메서드 작성
 	void sum(T a, V b) {
 		System.out.println(a);
@@ -14,10 +14,6 @@ public class Generic_ex05 {
 		// TODO Auto-generated method stub
 		int a = 10, b = 20;
 		
-		MyClass02 mc2 = new MyClass02();
-		mc2.sum(a, b);
-		//
-
 	}
 
 }
