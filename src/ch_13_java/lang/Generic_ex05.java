@@ -14,6 +14,9 @@ public class Generic_ex05 {
 		// TODO Auto-generated method stub
 		int a = 10, b = 20;
 		
+		MyClass02 mc2 = new MyClass02();
+		mc2.sum(a, b);
+
 	}
 
 }
