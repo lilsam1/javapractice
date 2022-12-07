@@ -19,7 +19,7 @@ public class MemberShip {
 	public boolean equals(Object obj) {	// name과 age 값이 같으면 true 리턴
 		// TODO Auto-generated method stub
 		// name과 age 값이 같으면 true 반환
-		if (obj instanceof MemberShip) {
+		if (obj instanceof MemberShip) {	// 참조변수 obj가 실제로 참조하고 있는 인스턴스의 타입이 MemberShip 클래스 타입이면 true를 반환
 			MemberShip memberShip = (MemberShip) obj;
 			return memberShip.name.equals(name) && (memberShip.age == age);
 		}
