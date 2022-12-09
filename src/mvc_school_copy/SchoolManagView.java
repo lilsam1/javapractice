@@ -1,4 +1,4 @@
-package mvc_school;
+package mvc_school_copy;
 
 import java.util.Scanner;
 

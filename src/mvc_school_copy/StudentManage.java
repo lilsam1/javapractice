@@ -1,14 +1,23 @@
-package mvc_school;
+package mvc_school_copy;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class StudentManage {
-	Scanner input = new Scanner(System.in);
-	ArrayList<Student> students = new ArrayList<Student>();
-	String[] className = {"JAVA", "PYTHON", "C"};
+	private Scanner input;
+	private ArrayList<Student> students;
 	
-	private Student findStudentInform(int studentNumber) {
+	public StudentManage() {
+		input = new Scanner(System.in);
+		students = new ArrayList<Student>();
+	}
+	
+//	Scanner input = new Scanner(System.in);
+//	ArrayList<Student> students = new ArrayList();
+	static String[] className = {"JAVA", "PYTHON", "C"};
+	
+	Student findStudentInform(int studentNumber) {
 		for (Student student : students) {
 			if(student.getStudentNumber() == studentNumber) {
 				System.out.println("해당 학생의 정보는 다음과 같습니다");
@@ -29,7 +38,7 @@ public class StudentManage {
 		Student newStudent = findStudentInform(studentNumber);
 		if(newStudent == null) {
 			newStudent = new Student(studentNumber);
-			students.add(newStudent);	// ArrayList에 학생 객체를 저장
+			students.add(newStudent);	// 학생 객체를 ArrayList에 저장
 		}
 		
 		System.out.print("이름을 입력 하세요 >>>");
@@ -130,7 +139,6 @@ public class StudentManage {
 		}
 	}
 	
-	
 	// 5. 학생 정보 조희 메뉴
 	public void informStudent() {
 		System.out.println("메뉴를 선택 해주세요. 1. 특정 학생만 / 2. 전체 학생");
@@ -146,9 +154,20 @@ public class StudentManage {
 	}
 	
 //	public void fas() {
-//		int studentNubmer = input.nextInt();
+//		int studentNubmer ;
 //		Student newStudent = findStudentInform(studentNumber);
 //		System.out.println("학번 : " + newStudent.getStudentNumber());
+//		System.out.println("이름 : " + newStudent.getName());
+//		System.out.println("전화번호 : " + newStudent.getPhoneNumber());
+//		System.out.println("메모 : " + newStudent.getMemo());
+//		System.out.println("현재 수강중인 과목과 성적 >>>");
+//		boolean[] classCheck = newStudent.getClassCheck();
+//		int[] classScore = newStudent.getClassScore();
+//		for (int i = 0; i < classCheck.length; i++) {
+//			if (classCheck[i]) {
+//				System.out.println("과목명:" + className[i] + " / 성적 : " + classScore[i]);
+//			}
+//		}
 //	}
 	
 	public void One() {
@@ -176,14 +195,14 @@ public class StudentManage {
 	}
 	
 	public void All() {
-		for (Student student : students) {
-			System.out.println("학번 : " + student.getStudentNumber());
-			System.out.println("이름 : " + student.getName());
-			System.out.println("전화번호 : " + student.getPhoneNumber());
-			System.out.println("메모 : " + student.getMemo());
+		for (Student newStudent : students) {
+			System.out.println("학번 : " + newStudent.getStudentNumber());
+			System.out.println("이름 : " + newStudent.getName());
+			System.out.println("전화번호 : " + newStudent.getPhoneNumber());
+			System.out.println("메모 : " + newStudent.getMemo());
 			System.out.println("현재 수강중인 과목과 성적 >>>");
-			boolean[] classCheck = student.getClassCheck();
-			int[] classScore = student.getClassScore();
+			boolean[] classCheck = newStudent.getClassCheck();
+			int[] classScore = newStudent.getClassScore();
 			for (int i = 0; i < classCheck.length; i++) {
 				if (classCheck[i]) {
 					System.out.println("과목명:" + className[i] + " / 성적 : " + classScore[i]);
