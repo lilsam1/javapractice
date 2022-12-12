@@ -18,6 +18,8 @@ public class JDBC {
 		 3) DB 계정 및 비밀번호
 		 4) 사용하고자 하는 DB이름
 		 
+		 절차
+		 Driver load -> db연결 -> statement(SQL 문을 수행할 수 있도록 하는 클래스) 생성
 		 
 		 */
 

@@ -1,23 +1,14 @@
 package mvc_school_copy;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class StudentManage {
-	private Scanner input;
-	private ArrayList<Student> students;
-	
-	public StudentManage() {
-		input = new Scanner(System.in);
-		students = new ArrayList<Student>();
-	}
-	
-//	Scanner input = new Scanner(System.in);
-//	ArrayList<Student> students = new ArrayList();
+	static Scanner input = new Scanner(System.in);
+	static ArrayList<Student> students = new ArrayList();
 	static String[] className = {"JAVA", "PYTHON", "C"};
 	
-	Student findStudentInform(int studentNumber) {
+	static Student findStudentInform(int studentNumber) {
 		for (Student student : students) {
 			if(student.getStudentNumber() == studentNumber) {
 				System.out.println("해당 학생의 정보는 다음과 같습니다");
