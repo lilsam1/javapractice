@@ -1,46 +1,55 @@
 package mvc_school_db;
 
 public class Course {
-	private String name;
+	private int num;
 	private int studentNumber;
 	private int code;
-	private int[] score;
+	private int score;
 	
+	public Course() {
+		
+	}
 	
-	public String getName() {
-		return name;
+	public Course(int studentNumber, int code) {
+		this.studentNumber = studentNumber;
+		this.code = code;
 	}
-	public void setName(String name) {
-		this.name = name;
+	
+	public Course(int code) {
+		this.code = code;
 	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
 	public int getStudentNumber() {
 		return studentNumber;
 	}
+
 	public void setStudentNumber(int studentNumber) {
 		this.studentNumber = studentNumber;
 	}
+
 	public int getCode() {
 		return code;
 	}
+
 	public void setCode(int code) {
 		this.code = code;
 	}
-	public int[] getScore() {
+
+	public int getScore() {
 		return score;
 	}
-	public void setScore(int index, int score) {
-		this.score[index] = score;
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
-	// 학생이 듣고 있는 수업의 정보 (자바, 파이썬, C)
-	private boolean[] classCheck = {false, false, false};	// 수강 신청 하면 true로 변경
 	
-	public boolean[] getClassCheck() {
-		return classCheck;
-	}
-
-	public void setClassCheck(int index, boolean check) {
-		this.classCheck[index] = check;
-	}
-
 }

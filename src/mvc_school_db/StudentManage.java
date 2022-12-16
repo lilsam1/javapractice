@@ -99,14 +99,52 @@ public class StudentManage {
 			int classMenu = input.nextInt();
 			switch(classMenu) {
 				case 1:
-					System.out.println("수강신청할 과목코드를 입력하세요");
+					setClass("수강신청할 과목을 선택하세요", student, true);
 					break;
 				case 2:
-					System.out.println("수강포기할 과목코드를 입력하세요");
+					setClass("수강포기할 과목을 선택하세요", student, false);
 					break;
 				case 3:
 					System.out.println("메인메뉴로 돌아갑니다");
 					return;
+			}
+		}
+	}
+	
+	public void setClass(String message, Student student, boolean check) {
+		System.out.println(message);
+		ArrayList<Subject> subjects = subjectDAO.selectAll();
+		for (Subject s : subjects) {
+			System.out.println(s.getCode() + "." + s.getSubjectName() + "/ ");
+		}
+		System.out.println();
+		int code = input.nextInt();
+		
+		Course course = new Course(student.getStudentNumber(), code);
+		if (check) {	// 수강신청
+			if (courseDAO.isCourse(course)) {
+				System.out.println("이미 수강신청한 과목입니다");
+			}
+			else {
+				if (!courseDAO.insertCourse(course)) {
+					System.out.println("수강 신청에 실패했습니다");
+				}
+				else {
+					System.out.println("수강 신청에 성공했습니다");
+				}
+			}
+		}
+		else {	// 수강취소
+			if (!courseDAO.isCourse(course)) {
+				System.out.println("수강신청한 과목이 아닙니다");
+			}
+			else {
+				if (!courseDAO.deleteCourse(course)) {
+					System.out.println("수강 취소에 실패했습니다");
+				}
+				else {
+					System.out.println("수강 취소에 성공했습니다");
+				}
 			}
 		}
 	}
@@ -116,32 +154,47 @@ public class StudentManage {
 		System.out.print("학생의 학번을 입력하세요 >>>");
 		int studentNumber = input.nextInt();	// 학번 입력받음
 		
-		Student newStudent = findStudentInform(studentNumber);
-		if(newStudent == null) {	// 만약 기존에 학생의 정보가 없다면
-			System.out.println("Error : 학생이 존재하지 않습니다");
-			return;	// 메서드 종료
+		Student student = studentDAO.selectOne(studentNumber);
+		if (student == null) {
+			System.out.println("해당되는 학번이 없습니다");
+			return;
+		}
+		else {
+			while(true) {
+				System.out.println("성적을 입력/수정할 과목을 선택하세요");
+				ArrayList<Subject> subjects = subjectDAO.selectAll();
+				for (Subject s : subjects) {
+					System.out.println(s.getCode() + "." + s.getSubjectName() + "/ ");
+				}
+				System.out.println("0. 종료");
+				System.out.println();
+				int code = input.nextInt();
+				if(code == 0) {	// 종료 체크
+					break;	// while 문 종료
+				}
+				
+				Course course = new Course(studentNumber, code);
+				if (!courseDAO.isCourse(course)) {
+					System.out.println("수강신청한 과목이 아닙니다");
+				}
+				else {
+					System.out.println("성적을 입력하세요 >>> ");
+					int score = input.nextInt();
+					if (score < 0 || score > 100) {
+						System.out.println("ERROR : 성적은 0부터 100 사이 숫자만 입력해 주세요");
+						continue;	// 처음으로 돌아감
+					}
+					course.setScore(score);
+					if (!courseDAO.updateScore(course)) {
+						System.out.println("성적 입력이 실패 했습니다");
+					}
+					else {
+						System.out.println("성적 입력이 완료 되었습니다");
+					}
+				}
+			}
 		}
 		
-		while(true) {
-			System.out.println("성적을 입력/수정할 과목을 선택하세요 1. JAVA / 2. PYTHON / 3. C / 4. 종료");
-			int classMenu = input.nextInt();
-			if(classMenu == 4) {	// 종료 체크
-				break;	// while문 종료
-			}
-			if(!newStudent.getClassCheck()[classMenu-1]) {	// 미신청 체크
-				System.out.println(className[classMenu-1] + "과목은 미신청 과목입니다");
-				continue;	// 미신청이기 떄문에 처음으로 돌아간다
-			}
-			System.out.print("성적을 입력하세요 >>>");
-			int score = input.nextInt();
-			if(score < 0 || score > 100) {	// 성적이 0 ~ 100 까지인지 체크
-				System.out.println("Error : 성적은 0부터 100 사이 숫자만 입력해 주세요");
-				continue;	// 처음으로 돌아감
-			}
-			// 정상적인 과목과 성적이 입력이 된 경우
-			newStudent.setClassScore(classMenu-1, score);	// 해당 학생의 Score를 업데이트 한다
-			System.out.println(className[classMenu-1] + "성적 입력이 완료되었습니다");	// 출력
-		}
 	}
 	
 	
@@ -152,29 +205,52 @@ public class StudentManage {
 		int menu = input.nextInt();
 		switch(menu) {
 		case 1: // 특정 학생의 정보
-			System.out.println("조회할 학생의 학번을 입력하세요");
-			System.out.print("학번 : ");
-			int studentNumber = input.nextInt();
-			
-			Student student = studentDAO.selectOne(studentNumber);
-			if (student != null) {
-				System.out.println();
-				System.out.println("이름 : " + student.getName() + "\n" + "연락처 : " + student.getPhoneNumber() + "\n" + "기록사항 : " + student.getMemo() + "\n" + "학번 : " + student.getStudentNumber() + "\n");
-			}
-			else {
-				System.out.println("해당 학번의 학생은 존재하지 않습니다");
-			}
+			One();
 			break;
 		case 2:	// 전체 학생의 정보
-			ArrayList<Student> list = studentDAO.selectAll();
-			for (Student student1 : list) {
-				System.out.println("이름 : " + student1.getName() + "\n" + "연락처 : " + student1.getPhoneNumber() + "\n" + "기록사항 : " + student1.getMemo() + "\n" + "학번 : " + student1.getStudentNumber() + "\n");
-			}
+			All();
 			break;
 		}
 	}
 	
+	public void One() {
+		System.out.print("학생의 학번을 입력하세요");
+		int studentNumber = input.nextInt();	// 학번 입력
+		
+		Student student = studentDAO.selectOne(studentNumber);
+		if (student == null) {
+			System.out.println("해당되는 학번이 없습니다");
+			return;
+		}
+		else {
+			System.out.println("학번 : " + student.getStudentNumber());
+			System.out.println("이름 : " + student.getName());
+			System.out.println("연락처 : " + student.getPhoneNumber());
+			System.out.println("메모 : " + student.getMemo());
+			System.out.println("현재 수강중인 과목");
+			ArrayList<Course> courses = courseDAO.selectAllByStudentNumber(studentNumber);
+			for (Course c : courses) {
+				System.out.println("과목명 : " + subjectDAO.selectOne(c.getCode()).getSubjectName() + " / 성적 : " + c.getScore());
+			}
+			
+		}
+	}
 	
+	public void All() {
+		ArrayList<Student> students = studentDAO.selectAll();
+		for (Student student : students) {
+			System.out.println("학번 : " + student.getStudentNumber());
+			System.out.println("이름 : " + student.getName());
+			System.out.println("연락처 : " + student.getPhoneNumber());
+			System.out.println("메모 : " + student.getMemo());
+			System.out.println("현재 수강중인 과목");
+			ArrayList<Course> courses = courseDAO.selectAllByStudentNumber(student.getStudentNumber());
+			for (Course c : courses) {
+				System.out.println("과목명 : " + subjectDAO.selectOne(c.getCode()).getSubjectName() + " / 성적 : " + c.getScore());
+			}
+			System.out.println();
+		}
+	}
 	
 	// 6. 수강과목 관리
 	public void management() {
